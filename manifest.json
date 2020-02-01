@@ -7,6 +7,17 @@
     "scripts": ["background-tfs-print.js"],
     "persistent": false
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.visualstudio.com/*",
+        "https://dev.azure.com/*",
+        "https://tfs/*"
+      ],
+      "css": ["content-tfs-print.css"],
+      "js": ["content-tfs-print.js"]
+    }
+  ],
   "page_action": {
     "default_icon": {
       "16": "images/get_started16.png",

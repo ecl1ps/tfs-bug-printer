@@ -16,6 +16,11 @@
  * @typedef {{[key: string]: number}} ColumnData
  */
 
+chrome.runtime.onMessage.addListener(message => {
+    if (message.type == "TOGGLE_PRINT_VIEW")
+        toggleView();
+});
+
 function toggleView() {
     document.body.classList.toggle("mw-print-view");
 
@@ -93,5 +98,3 @@ function getCellValue(row, cellIndex) {
 function getColumnIndex(columns, cellKey) {
     return columns[cellKey];
 }
-
-toggleView();

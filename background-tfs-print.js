@@ -23,11 +23,8 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 
     chrome.pageAction.onClicked.addListener(() => {
-        chrome.tabs.executeScript({
-            file: "content-mw-print.js"
-        });
-        chrome.tabs.insertCSS({
-            file: "content-mw-print.css"
+        chrome.tabs.query({ currentWindow: true, active: true }, (tabArray) => {
+            chrome.tabs.sendMessage(tabArray[0].id, { type: "TOGGLE_PRINT_VIEW" })
         });
     });
 });
