@@ -1,0 +1,12 @@
+.mw-print-view > *:not(.mw-print-view__container) {
+    display: none;
+}
+
+body:not(.mw-print-view) > .mw-print-view__container {
+    display: none;
+}
+
+.mw-print-view__container {
+    display: flex;
+    background-color: lightgrey;
+}
