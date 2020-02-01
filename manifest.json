@@ -4,7 +4,7 @@
   "description": "Creates page from TFS query formatted for print",
   "permissions": ["activeTab", "declarativeContent"],
   "background": {
-    "scripts": ["background-mw-print.js"],
+    "scripts": ["background-tfs-print.js"],
     "persistent": false
   },
   "page_action": {
