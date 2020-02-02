@@ -1,7 +1,8 @@
 {
   "name": " TFS Bug Printer",
   "version": "1.0",
-  "description": "Creates page from TFS query formatted for print",
+  "description": "Displays a page formatted for print based on data from displayed TFS query result.",
+  "author": "Jan Novotný",
   "permissions": ["activeTab", "declarativeContent"],
   "background": {
     "scripts": ["background-tfs-print.js"],
@@ -20,18 +21,18 @@
   ],
   "page_action": {
     "default_icon": {
-      "16": "images/get_started16.png",
-      "32": "images/get_started32.png",
-      "48": "images/get_started48.png",
-      "128": "images/get_started128.png"
+      "16": "images/logo16.png",
+      "32": "images/logo32.png",
+      "48": "images/logo48.png",
+      "128": "images/logo128.png"
     },
-    "default_title": "Toggle print view"
+    "default_title": "Toggle TFS print view"
   },
   "icons": {
-    "16": "images/get_started16.png",
-    "32": "images/get_started32.png",
-    "48": "images/get_started48.png",
-    "128": "images/get_started128.png"
+    "16": "images/logo16.png",
+    "32": "images/logo32.png",
+    "48": "images/logo48.png",
+    "128": "images/logo128.png"
   },
   "manifest_version": 2
 }
