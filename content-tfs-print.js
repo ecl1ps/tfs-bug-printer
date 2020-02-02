@@ -22,21 +22,60 @@ chrome.runtime.onMessage.addListener(message => {
 });
 
 function toggleView() {
-    document.body.classList.toggle("mw-print-view");
+    document.body.classList.toggle("tfs-print-view");
 
-    let printContainer = document.querySelector(".mw-print-view__container");
+    if (!document.body.classList.contains("tfs-print-view"))
+        return;
+
+    let printContainer = document.querySelector(".tfs-print-view__container");
     if (printContainer) {
         printContainer.innerHTML = "";
     } else {
         printContainer = document.createElement("div");
-        printContainer.classList.add("mw-print-view__container");
+        printContainer.classList.add("tfs-print-view__container");
         document.body.appendChild(printContainer);
     }
 
     const workItems = findWorkItems();
 
-    printContainer.textContent = JSON.stringify(workItems);
+    renderWIs(printContainer, workItems);
+}
 
+/**
+ * @param {Element} printContainer 
+ * @param {WIData[]} workItems 
+ */
+function renderWIs(printContainer, workItems) {
+    workItems.forEach(wi => printContainer.appendChild(createWIElement(wi)));
+}
+
+/**
+ * @param {WIData} data 
+ * @returns {Element}
+ */
+function createWIElement(data) {
+    const container = document.createElement("div");
+    container.classList.add("tfs-print-item");
+
+    container.appendChild(createWISubElement("parent", data.parent));
+    container.appendChild(createWISubElement("id", data.id));
+    container.appendChild(createWISubElement("title", data.title));
+    container.appendChild(createWISubElement("state", data.state));
+    container.appendChild(createWISubElement("tags", data.tags));
+    container.appendChild(createWISubElement("type", data.type));
+    container.appendChild(createWISubElement("assigned-to", data.assignedTo));
+    container.appendChild(createWISubElement("effort", data.effort));
+
+    return container;
+}
+
+function createWISubElement(key, data) {
+    const item = document.createElement("div");
+    item.classList.add(`tfs-print-item__${key}`);
+    item.contentEditable = true.toString();
+    if (data != null && data !== "" && data !== " " && data !== " ") // last one is &nbsp;
+        item.textContent = data;
+    return item;
 }
 
 /**

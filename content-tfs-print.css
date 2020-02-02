@@ -1,12 +1,82 @@
-.mw-print-view > *:not(.mw-print-view__container) {
+.tfs-print-view > *:not(.tfs-print-view__container) {
     display: none;
 }
 
-body:not(.mw-print-view) > .mw-print-view__container {
+body:not(.tfs-print-view) > .tfs-print-view__container {
     display: none;
 }
 
-.mw-print-view__container {
+.tfs-print-view__container {
     display: flex;
-    background-color: lightgrey;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tfs-print-item {
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "parent type tags"
+        "id title effort"
+        "id title assigned-to";
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+}
+
+.tfs-print-item:first-of-type {
+    border-top-width: 1px;
+}
+
+.tfs-print-item__id {
+    grid-area: id;
+    font-size: 4rem;
+}
+
+.tfs-print-item__parent:empty + .tfs-print-item__id {
+    grid-row-start: parent;
+    font-size: 5rem;
+}
+
+.tfs-print-item__title {
+    grid-area: title;
+    font-size: 2rem;
+}
+
+.tfs-print-item__parent {
+    grid-area: parent;
+}
+
+.tfs-print-item__type {
+    grid-area: type;
+}
+
+.tfs-print-item__tags {
+    grid-area: tags;
+}
+.tfs-print-item__tags:not(:empty)::before {
+    content: "Tags: ";
+}
+
+.tfs-print-item__state {
+    display: none;
+}
+
+.tfs-print-item__effort {
+    grid-area: effort;
+}
+.tfs-print-item__effort:not(:empty)::before {
+    content: "Effort: ";
+}
+
+.tfs-print-item__assigned-to {
+    grid-area: assigned-to;
+}
+.tfs-print-item__assigned-to:not(:empty)::before {
+    content: "Assigned: ";
 }
