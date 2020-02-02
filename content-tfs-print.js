@@ -89,18 +89,28 @@ function findWorkItems() {
     const columns = getColumns(resultsContainer);
 
     const workItems = [];
+    const levels = new Map();
+
     const rows = resultsContainer.querySelectorAll(".grid-row");
-    for (const row of rows)
+    for (const row of rows) {
+        const level = parseInt(row.getAttribute("aria-level"));
+        const id = parseInt(getCellValue(row, getColumnIndex(columns, "ID")));
+        let parent = null;
+        if (level > 1)
+            parent = levels.get(level - 1);
+        levels.set(level, id);
+
         workItems.push({
-            id: getCellValue(row, getColumnIndex(columns, "ID")),
+            id: id.toString(),
             type: getCellValue(row, getColumnIndex(columns, "Work Item Type")),
             title: getCellValue(row, getColumnIndex(columns, "Title")),
-            //parent: getCellValue(row, "System.AsignedTo"),
+            parent: parent,
             state: getCellValue(row, getColumnIndex(columns, "State")),
             assignedTo: getCellValue(row, getColumnIndex(columns, "Asigned To")),
             tags: getCellValue(row, getColumnIndex(columns, "Tags")),
             effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
         });
+    }
 
     return workItems;
 }

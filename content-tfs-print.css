@@ -52,6 +52,9 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 .tfs-print-item__parent {
     grid-area: parent;
 }
+.tfs-print-item__parent:not(:empty)::before {
+    content: "Parent: ";
+}
 
 .tfs-print-item__type {
     grid-area: type;
