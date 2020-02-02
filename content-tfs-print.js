@@ -106,7 +106,7 @@ function findWorkItems() {
             title: getCellValue(row, getColumnIndex(columns, "Title")),
             parent: parent,
             state: getCellValue(row, getColumnIndex(columns, "State")),
-            assignedTo: getCellValue(row, getColumnIndex(columns, "Asigned To")),
+            assignedTo: getCellValue(row, getColumnIndex(columns, "Assigned To")),
             tags: getCellValue(row, getColumnIndex(columns, "Tags")),
             effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
         });
