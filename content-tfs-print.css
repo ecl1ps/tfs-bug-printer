@@ -9,17 +9,18 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 .tfs-print-view__container {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    margin: 0 auto;
+    width: 1120px; /* approximately width of A4 page with standard DPI */
 }
 
 .tfs-print-item {
-    border-width: 0 1px 1px 1px;
+    border-width: 0 0 1px 0;
     border-style: solid;
     border-color: black;
     padding: 10px;
 
     display: grid;
-    grid-template-columns: max-content auto max-content;
+    grid-template-columns: max-content auto minmax(100px, max-content);
     grid-template-rows: auto;
     grid-template-areas: 
         "parent type tags"
