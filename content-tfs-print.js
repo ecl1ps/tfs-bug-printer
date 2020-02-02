@@ -7,6 +7,7 @@
  *  type?: string,
  *  title?: string,
  *  parent?: string,
+ *  parentWithTitle?: string,
  *  state?: string,
  *  assignedTo?: string,
  *  tags?: string,
@@ -58,9 +59,10 @@ function createWIElement(data) {
     container.classList.add("tfs-print-item");
 
     container.appendChild(createWISubElement("parent", data.parent));
+    container.appendChild(createWISubElement("parent-with-title", data.parentWithTitle));
     container.appendChild(createWISubElement("id", data.id));
-    container.appendChild(createWISubElement("type", data.type));
     container.appendChild(createWISubElement("title", data.title));
+    container.appendChild(createWISubElement("type", data.type));
     container.appendChild(createWISubElement("tags", data.tags));
     container.appendChild(createWISubElement("effort", data.effort));
     container.appendChild(createWISubElement("assigned-to", data.assignedTo));
@@ -95,16 +97,18 @@ function findWorkItems() {
     for (const row of rows) {
         const level = parseInt(row.getAttribute("aria-level"));
         const id = parseInt(getCellValue(row, getColumnIndex(columns, "ID")));
+        const title = getCellValue(row, getColumnIndex(columns, "Title"));
         let parent = null;
         if (level > 1)
             parent = levels.get(level - 1);
-        levels.set(level, id);
+        levels.set(level, { id, title });
 
         workItems.push({
             id: id.toString(),
+            parent: parent ? parent.id : null,
+            parentWithTitle: parent ? `${parent.id} - ${parent.title}` : null,
+            title: title,
             type: getCellValue(row, getColumnIndex(columns, "Work Item Type")),
-            title: getCellValue(row, getColumnIndex(columns, "Title")),
-            parent: parent,
             state: getCellValue(row, getColumnIndex(columns, "State")),
             assignedTo: getCellValue(row, getColumnIndex(columns, "Assigned To")),
             tags: getCellValue(row, getColumnIndex(columns, "Tags")),

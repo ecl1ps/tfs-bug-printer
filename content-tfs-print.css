@@ -19,10 +19,10 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     padding: 10px;
 
     display: grid;
-    grid-template-columns: max-content auto minmax(100px, max-content);
+    grid-template-columns: minmax(0, 175px) auto minmax(100px, max-content);
     grid-template-rows: auto;
     grid-template-areas: 
-        "parent type tags"
+        "parent parent tags"
         "id title effort"
         "id title assigned-to";
     grid-column-gap: 20px;
@@ -34,7 +34,7 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     font-size: 4rem;
 }
 
-.tfs-print-item__parent:empty + .tfs-print-item__id {
+.tfs-print-item__parent:empty ~ .tfs-print-item__id {
     grid-row-start: parent;
     font-size: 5rem;
 }
@@ -45,16 +45,27 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     /*max-height: 6rem;
     overflow: hidden;*/
 }
+.tfs-print-item__parent:empty ~ .tfs-print-item__title {
+    grid-row-start: parent;
+}
 
 .tfs-print-item__parent {
     grid-area: parent;
+    display: none;
 }
 .tfs-print-item__parent:not(:empty)::before {
     content: "Parent: ";
 }
 
+.tfs-print-item__parent-with-title {
+    grid-area: parent;
+}
+.tfs-print-item__parent-with-title:not(:empty)::before {
+    content: "Parent: ";
+}
+
 .tfs-print-item__type {
-    grid-area: type;
+    display: none;
 }
 
 .tfs-print-item__tags {
