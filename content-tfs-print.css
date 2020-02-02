@@ -7,14 +7,13 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 }
 
 .tfs-print-view__container {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    width: 1120px; /* approximately width of A4 page with standard DPI */
+    margin: 10px auto;
+    width: 50%;
+    overflow-y: auto;
 }
 
 .tfs-print-item {
-    border-width: 0 0 1px 0;
+    border-width: 1px 0 1px 0;
     border-style: solid;
     border-color: black;
     padding: 10px;
@@ -30,10 +29,6 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     grid-row-gap: 10px;
 }
 
-.tfs-print-item:first-of-type {
-    border-top-width: 1px;
-}
-
 .tfs-print-item__id {
     grid-area: id;
     font-size: 4rem;
@@ -47,6 +42,8 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 .tfs-print-item__title {
     grid-area: title;
     font-size: 2rem;
+    /*max-height: 6rem;
+    overflow: hidden;*/
 }
 
 .tfs-print-item__parent {
@@ -83,4 +80,15 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 }
 .tfs-print-item__assigned-to:not(:empty)::before {
     content: "Assigned: ";
+}
+
+@media print {
+    .tfs-print-view__container {
+        overflow: visible;
+        width: 100%;
+    }
+
+    .tfs-print-item {
+        break-inside: avoid;
+    }
 }
