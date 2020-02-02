@@ -59,12 +59,12 @@ function createWIElement(data) {
 
     container.appendChild(createWISubElement("parent", data.parent));
     container.appendChild(createWISubElement("id", data.id));
-    container.appendChild(createWISubElement("title", data.title));
-    container.appendChild(createWISubElement("state", data.state));
-    container.appendChild(createWISubElement("tags", data.tags));
     container.appendChild(createWISubElement("type", data.type));
-    container.appendChild(createWISubElement("assigned-to", data.assignedTo));
+    container.appendChild(createWISubElement("title", data.title));
+    container.appendChild(createWISubElement("tags", data.tags));
     container.appendChild(createWISubElement("effort", data.effort));
+    container.appendChild(createWISubElement("assigned-to", data.assignedTo));
+    container.appendChild(createWISubElement("state", data.state));
 
     return container;
 }
@@ -73,7 +73,7 @@ function createWISubElement(key, data) {
     const item = document.createElement("div");
     item.classList.add(`tfs-print-item__${key}`);
     item.contentEditable = true.toString();
-    if (data != null && data !== "" && data !== " " && data !== " ") // last one is &nbsp;
+    if (data != null && data !== "" && data !== " " && data !== String.fromCharCode(160)) // the last one is &nbsp;
         item.textContent = data;
     return item;
 }
@@ -99,7 +99,7 @@ function findWorkItems() {
             state: getCellValue(row, getColumnIndex(columns, "State")),
             assignedTo: getCellValue(row, getColumnIndex(columns, "Asigned To")),
             tags: getCellValue(row, getColumnIndex(columns, "Tags")),
-            effort: getCellValue(row, getColumnIndex(columns, "Effort")),
+            effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
         });
 
     return workItems;
