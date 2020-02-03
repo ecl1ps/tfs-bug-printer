@@ -19,25 +19,26 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     padding: 10px;
 
     display: grid;
-    grid-template-columns: minmax(0, 175px) auto minmax(100px, max-content);
+    grid-template-columns: min-content auto minmax(100px, max-content);
     grid-template-rows: auto;
     grid-template-areas: 
-        "parent parent tags"
+        "parent title tags"
         "id title effort"
         "id title severity"
         "id title assigned-to";
     grid-column-gap: 20px;
-    grid-row-gap: 10px;
+    align-items: center;
 }
 
 .tfs-print-item__id {
     grid-area: id;
-    font-size: 4rem;
+    font-size: 7rem;
+    line-height: 7rem;
+    font-weight: bold;
 }
 
 .tfs-print-item__parent:empty ~ .tfs-print-item__id {
     grid-row-start: parent;
-    font-size: 5rem;
 }
 
 .tfs-print-item__title {
