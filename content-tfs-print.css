@@ -24,6 +24,7 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     grid-template-areas: 
         "parent parent tags"
         "id title effort"
+        "id title severity"
         "id title assigned-to";
     grid-column-gap: 20px;
     grid-row-gap: 10px;
@@ -84,6 +85,13 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 }
 .tfs-print-item__effort:not(:empty)::before {
     content: "Effort: ";
+}
+
+.tfs-print-item__severity {
+    grid-area: severity;
+}
+.tfs-print-item__severity:not(:empty)::before {
+    content: "Severity: ";
 }
 
 .tfs-print-item__assigned-to {

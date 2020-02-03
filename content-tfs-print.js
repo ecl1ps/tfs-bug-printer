@@ -12,6 +12,7 @@
  *  assignedTo?: string,
  *  tags?: string,
  *  effort?: string,
+ *  severity?: string,
  * }} WIData
  * 
  * @typedef {{[key: string]: number}} ColumnData
@@ -65,6 +66,7 @@ function createWIElement(data) {
     container.appendChild(createWISubElement("type", data.type));
     container.appendChild(createWISubElement("tags", data.tags));
     container.appendChild(createWISubElement("effort", data.effort));
+    container.appendChild(createWISubElement("severity", data.severity));
     container.appendChild(createWISubElement("assigned-to", data.assignedTo));
     container.appendChild(createWISubElement("state", data.state));
 
@@ -113,6 +115,7 @@ function findWorkItems() {
             assignedTo: getCellValue(row, getColumnIndex(columns, "Assigned To")),
             tags: getCellValue(row, getColumnIndex(columns, "Tags")),
             effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
+            severity: getCellValue(row, getColumnIndex(columns, "Severity")),
         });
     }
 
