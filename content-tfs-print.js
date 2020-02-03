@@ -113,7 +113,10 @@ function findWorkItems() {
             type: getCellValue(row, getColumnIndex(columns, "Work Item Type")),
             state: getCellValue(row, getColumnIndex(columns, "State")),
             assignedTo: getCellValue(row, getColumnIndex(columns, "Assigned To")),
-            tags: getCellValue(row, getColumnIndex(columns, "Tags")),
+            tags: getCellValue(row, getColumnIndex(columns, "Tags"), cell => {
+                const tagCell = cell.querySelector(".tags-items-container");
+                return tagCell ? tagCell.getAttribute("aria-label") : "";
+            }),
             effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
             severity: getCellValue(row, getColumnIndex(columns, "Severity")),
         });
@@ -137,13 +140,14 @@ function getColumns(resultsContainer) {
 /**
  * @param {Element} row 
  * @param {number?} cellIndex 
+ * @param {((cell: Element) => string)=} valueSelectorFunc
  */
-function getCellValue(row, cellIndex) {
+function getCellValue(row, cellIndex, valueSelectorFunc) {
     if (cellIndex == null)
         return "";
 
     const cell = row.querySelector(`.grid-cell:nth-of-type(${cellIndex + 1})`);
-    return cell ? cell.textContent : "";
+    return cell ? (valueSelectorFunc ? valueSelectorFunc(cell) : cell.textContent) : "";
 }
 
 /**

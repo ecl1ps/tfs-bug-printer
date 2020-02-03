@@ -71,6 +71,7 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 
 .tfs-print-item__tags {
     grid-area: tags;
+    max-width: 170px;
 }
 .tfs-print-item__tags:not(:empty)::before {
     content: "Tags: ";
