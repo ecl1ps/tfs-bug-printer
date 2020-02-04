@@ -6,7 +6,7 @@
   "permissions": ["activeTab", "declarativeContent"],
   "background": {
     "scripts": ["background-tfs-print.js"],
-    "persistent": false
+    "persistent": true
   },
   "content_scripts": [
     {
