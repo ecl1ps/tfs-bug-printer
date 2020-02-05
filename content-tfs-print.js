@@ -48,7 +48,7 @@ function toggleView() {
  * @param {WIData[]} workItems 
  */
 function renderWIs(printContainer, workItems) {
-    workItems.forEach(wi => printContainer.appendChild(createWIElement(wi)));
+    workItems.forEach(wi => printContainer.appendChild(createDeleteElement(createWIElement(wi))));
 }
 
 /**
@@ -73,6 +73,11 @@ function createWIElement(data) {
     return container;
 }
 
+/**
+ * @param {string} key 
+ * @param {string?} data 
+ * @returns {Element}
+ */
 function createWISubElement(key, data) {
     const item = document.createElement("div");
     item.classList.add(`tfs-print-item__${key}`);
@@ -80,6 +85,23 @@ function createWISubElement(key, data) {
     if (data != null && data !== "" && data !== " " && data !== String.fromCharCode(160)) // the last one is &nbsp;
         item.textContent = data;
     return item;
+}
+
+/**
+ * @param {Element} wrappedElement 
+ * @returns {Element}
+ */
+function createDeleteElement(wrappedElement) {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add(`tfs-print-item__wrapper`);
+    wrapper.appendChild(wrappedElement);
+
+    const deleteElement = document.createElement("div");
+    deleteElement.classList.add(`tfs-print-item__delete-button`);
+    deleteElement.addEventListener("click", () => wrapper.remove());
+    wrapper.appendChild(deleteElement);
+
+    return wrapper;
 }
 
 /**

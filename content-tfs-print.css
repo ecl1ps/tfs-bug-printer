@@ -12,11 +12,41 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     overflow-y: auto;
 }
 
+.tfs-print-item__wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.tfs-print-item__wrapper:hover {
+    background-color: #eee;
+}
+
+.tfs-print-item__delete-button {
+    flex: 0;
+    display: flex;
+    align-self: center;
+
+    cursor: pointer;
+    min-width: 4rem;
+} 
+
+.tfs-print-item__delete-button:hover {
+    font-weight: bold;
+}  
+
+.tfs-print-item__delete-button::before {
+    content: "x";
+    font-size: 2rem;
+    padding: 2rem;
+}
+
 .tfs-print-item {
     border-width: 1px 0 1px 0;
     border-style: solid;
     border-color: black;
     padding: 10px;
+
+    flex: 1;
 
     display: grid;
     grid-template-columns: min-content auto minmax(100px, max-content);
@@ -44,6 +74,7 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 .tfs-print-item__title {
     grid-area: title;
     font-size: 2rem;
+    font-weight: bold;
     /*max-height: 6rem;
     overflow: hidden;*/
 }
@@ -109,7 +140,15 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
         width: 100%;
     }
 
-    .tfs-print-item {
+    .tfs-print-item__wrapper {
         break-inside: avoid;
+    }
+
+    .tfs-print-item__wrapper:hover {
+        background-color: transparent;
+    }
+    
+    .tfs-print-item__delete-button::before {
+        display: none;
     }
 }
