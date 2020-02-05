@@ -13,6 +13,7 @@
  *  tags?: string,
  *  effort?: string,
  *  severity?: string,
+ *  segment?: string,
  * }} WIData
  * 
  * @typedef {{[key: string]: number}} ColumnData
@@ -69,6 +70,7 @@ function createWIElement(data) {
     container.appendChild(createWISubElement("severity", data.severity));
     container.appendChild(createWISubElement("assigned-to", data.assignedTo));
     container.appendChild(createWISubElement("state", data.state));
+    container.appendChild(createWISubElement("segment", data.segment));
 
     return container;
 }
@@ -141,6 +143,7 @@ function findWorkItems() {
             }),
             effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
             severity: getCellValue(row, getColumnIndex(columns, "Severity")),
+            segment: getCellValue(row, getColumnIndex(columns, "Segment")),
         });
     }
 

@@ -53,6 +53,7 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     grid-template-rows: auto;
     grid-template-areas: 
         "parent title tags"
+        "id title segment"
         "id title effort"
         "id title severity"
         "id title assigned-to";
@@ -132,6 +133,13 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 }
 .tfs-print-item__assigned-to:not(:empty)::before {
     content: "Assigned: ";
+}
+
+.tfs-print-item__segment {
+    grid-area: segment;
+}
+.tfs-print-item__segment:not(:empty)::before {
+    content: "Segment: ";
 }
 
 @media print {
