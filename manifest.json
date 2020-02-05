@@ -13,7 +13,8 @@
       "matches": [
         "https://*.visualstudio.com/*",
         "https://dev.azure.com/*",
-        "https://tfs/*"
+        "https://tfs/*",
+        "https://*.loc/*"
       ],
       "css": ["content-tfs-print.css"],
       "js": ["content-tfs-print.js"]
