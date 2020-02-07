@@ -40,6 +40,12 @@ function toggleView() {
     }
 
     const workItems = findWorkItems();
+    if (!workItems) {
+        console.warn("[TFS Bug Printer] No workitems found.")
+        return;
+    }
+
+    console.info("[TFS Bug Printer] Found workitems: ", workItems);
 
     renderWIs(printContainer, workItems);
 }
@@ -84,11 +90,18 @@ function createWISubElement(key, data) {
     const item = document.createElement("div");
     item.classList.add(`tfs-print-item__${key}`);
     item.contentEditable = true.toString();
-    if (data != null && data !== "" && data !== " " && data !== String.fromCharCode(160)) // the last one is &nbsp;
+    if (!isNullOrEmptyOrWhitespace(data))
         item.textContent = data;
     return item;
 }
 
+/**
+ * @param {string | null | undefined} data 
+ * @returns {boolean}
+ */
+function isNullOrEmptyOrWhitespace(data) {
+    return !(data != null && data !== "" && data !== " " && data !== String.fromCharCode(160)); // the last one is &nbsp;
+}
 /**
  * @param {Element} wrappedElement 
  * @returns {Element}
@@ -107,10 +120,22 @@ function createDeleteElement(wrappedElement) {
 }
 
 /**
- * @returns {WIData[]}
+ * @returns {WIData[] | null}
  */
 function findWorkItems() {
-    const resultsContainer = document.querySelector(".query-results-view-container");
+    if (findQueryResultContainerElement())
+        return findWorkItemsFromQuery();
+    if (findWorkItemContainerElement())
+        return findWorkItemsFromWorkItemPage();
+    return null;
+}
+
+
+/**
+ * @returns {WIData[]}
+ */
+function findWorkItemsFromQuery() {
+    const resultsContainer = findQueryResultContainerElement();
     if (!resultsContainer)
         return [];
 
@@ -148,6 +173,115 @@ function findWorkItems() {
     }
 
     return workItems;
+}
+
+/**
+ * @returns {WIData[]}
+ */
+function findWorkItemsFromWorkItemPage() {
+    const container = findWorkItemContainerElement();
+
+    let parentId = "";
+    let parentWithTitle = "";
+    const parentItemContainer = getGenericContentContainer(container, "Parent", ".la-group-title", ".la-list-group-showheader");
+    if (parentItemContainer) {
+        parentId = getTextContent(parentItemContainer, ".la-primary-data-id").trim();
+        parentWithTitle = getTextContent(parentItemContainer, ".la-primary-data");
+    }
+
+    /** @type {WIData} */
+    const wi = {
+        id: getTextContent(container, ".work-item-form-id"),
+        parent: parentId,
+        parentWithTitle: parentWithTitle,
+        title: getInputContent(container, ".work-item-form-title input"),
+        type: container.querySelector(".work-item-type-icon").getAttribute("aria-label"),
+        state: getGenericInputContent(container, "State", ".work-item-header-control-container"),
+        assignedTo: getTextContent(container, ".work-item-form-assignedTo .identity-picker-resolved-name"),
+        tags: Array.from(container.querySelectorAll(".tags-items-container .tag-box")).map(element => element.textContent).filter(text => !isNullOrEmptyOrWhitespace(text)).join(", "),
+        effort: getGenericInputContent(container, "Effort") || getGenericInputContent(container, "Remaining Work"),
+        severity: getGenericInputContent(container, "Severity"),
+        segment: getGenericInputContent(container, "Segment"),
+    };
+
+    return [wi];
+}
+
+/**
+ * @param {Element} root 
+ * @param {string} selector 
+ */
+function getTextContent(root, selector) {
+    const element = root.querySelector(selector);
+    return element ? element.textContent : "";
+}
+
+/**
+ * @param {Element} root 
+ * @param {string} selector 
+ */
+function getInputContent(root, selector) {
+    const input = /** @type {HTMLInputElement} */(root.querySelector(selector));
+    return input ? input.value : "";
+}
+
+/**
+ * @param {Element} root 
+ * @param {string} title 
+ * @param {string} containerSelector 
+ */
+function getGenericInputContent(root, title, containerSelector = ".control") {
+    const containerElement = getGenericContentContainer(root, title, ".workitemcontrol-label", containerSelector);
+    if (!containerElement)
+        return "";
+
+    return getInputContent(containerElement, "input");
+}
+
+/**
+ * @param {Element} root
+ * @param {string} title
+ * @param {string} valueContainerSelector
+ * @param {string} titleContainerSelector
+ */
+function getGenericContentContainer(root, title, titleContainerSelector, valueContainerSelector) {
+    const titleElement = Array.from(root.querySelectorAll(`${valueContainerSelector} ${titleContainerSelector}`)).find(element => element.textContent === title);
+    if (!titleElement)
+        return "";
+
+    return findParentElement(titleElement, valueContainerSelector);
+
+}
+
+/**
+ * @param {Element} startElement
+ * @param {string | ((el: Element) => boolean)} comparePredicate Porovnávací predikát nebo selector, první vyhovující rodič je vrácen nebo null
+ * @returns {Element | null}
+ */
+function findParentElement(startElement, comparePredicate) {
+    if (startElement.parentElement == null)
+        return null;
+
+    if (typeof comparePredicate === 'string') {
+        if (startElement.parentElement.matches(comparePredicate))
+            return startElement.parentElement;
+    } else {
+        if (comparePredicate(startElement.parentElement))
+            return startElement.parentElement;
+    }
+
+    return findParentElement(startElement.parentElement, comparePredicate);
+}
+
+
+/** @returns {Element} */
+function findQueryResultContainerElement() {
+    return document.querySelector(".query-results-view-container");
+}
+
+/** @returns {Element} */
+function findWorkItemContainerElement() {
+    return document.querySelector(".work-item-form");
 }
 
 /**
