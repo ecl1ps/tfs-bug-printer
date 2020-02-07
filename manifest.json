@@ -1,6 +1,6 @@
 {
   "name": " TFS Bug Printer",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Displays a page formatted for print based on data from displayed TFS query result.",
   "author": "Jan Novotný",
   "permissions": ["activeTab", "declarativeContent"],
