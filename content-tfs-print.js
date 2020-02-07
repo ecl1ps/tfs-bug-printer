@@ -14,6 +14,7 @@
  *  effort?: string,
  *  severity?: string,
  *  segment?: string,
+ *  sd?: string,
  * }} WIData
  * 
  * @typedef {{[key: string]: number}} ColumnData
@@ -77,6 +78,7 @@ function createWIElement(data) {
     container.appendChild(createWISubElement("assigned-to", data.assignedTo));
     container.appendChild(createWISubElement("state", data.state));
     container.appendChild(createWISubElement("segment", data.segment));
+    container.appendChild(createWISubElement("sd", data.sd));
 
     return container;
 }
@@ -169,6 +171,7 @@ function findWorkItemsFromQuery() {
             effort: getCellValue(row, getColumnIndex(columns, "Effort")) || getCellValue(row, getColumnIndex(columns, "Remaining Work")),
             severity: getCellValue(row, getColumnIndex(columns, "Severity")),
             segment: getCellValue(row, getColumnIndex(columns, "Segment")),
+            sd: getCellValue(row, getColumnIndex(columns, "SDCode")),
         });
     }
 
@@ -202,6 +205,7 @@ function findWorkItemsFromWorkItemPage() {
         effort: getGenericInputContent(container, "Effort") || getGenericInputContent(container, "Remaining Work"),
         severity: getGenericInputContent(container, "Severity"),
         segment: getGenericInputContent(container, "Segment"),
+        sd: getGenericInputContent(container, "Code"),
     };
 
     return [wi];

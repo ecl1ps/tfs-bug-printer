@@ -53,10 +53,11 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
     grid-template-rows: auto;
     grid-template-areas: 
         "parent title tags"
-        "id title segment"
-        "id title effort"
         "id title severity"
-        "id title assigned-to";
+        "id title effort"
+        "id title assigned-to"
+        "id title segment"
+        "id title sd";
     grid-column-gap: 20px;
     align-items: center;
 }
@@ -140,6 +141,13 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
 }
 .tfs-print-item__segment:not(:empty)::before {
     content: "Segment: ";
+}
+
+.tfs-print-item__sd {
+    grid-area: sd;
+}
+.tfs-print-item__sd:not(:empty)::before {
+    content: "SD: ";
 }
 
 @media print {
