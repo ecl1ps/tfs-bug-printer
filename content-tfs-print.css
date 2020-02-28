@@ -164,7 +164,7 @@ body:not(.tfs-print-view) > .tfs-print-view__container {
         background-color: transparent;
     }
     
-    .tfs-print-item__delete-button::before {
+    .tfs-print-item__delete-button {
         display: none;
     }
 }
