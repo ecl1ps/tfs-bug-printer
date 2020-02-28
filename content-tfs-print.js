@@ -310,7 +310,8 @@ function getCellValue(row, cellIndex, valueSelectorFunc) {
         return "";
 
     const cell = row.querySelector(`.grid-cell:nth-of-type(${cellIndex + 1})`);
-    return cell ? (valueSelectorFunc ? valueSelectorFunc(cell) : cell.textContent) : "";
+    const value = cell ? (valueSelectorFunc ? valueSelectorFunc(cell) : cell.textContent) : "";
+    return isNullOrEmptyOrWhitespace(value) ? "" : value;
 }
 
 /**
