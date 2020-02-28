@@ -21,14 +21,14 @@ chrome.runtime.onInstalled.addListener(() => {
         }]);
         
     });
+});
 
-    chrome.pageAction.onClicked.addListener(() => {
-        chrome.tabs.query({ currentWindow: true, active: true }, (tabArray) => {
-            if (tabArray.length === 0) {
-                console.error("Unable to find current active window. Print view cannot be toggled.");
-                return;
-            }
-            chrome.tabs.sendMessage(tabArray[0].id, { type: "TOGGLE_PRINT_VIEW" })
-        });
+chrome.pageAction.onClicked.addListener(() => {
+    chrome.tabs.query({ currentWindow: true, active: true }, (tabArray) => {
+        if (tabArray.length === 0) {
+            console.error("Unable to find current active window. Print view cannot be toggled.");
+            return;
+        }
+        chrome.tabs.sendMessage(tabArray[0].id, { type: "TOGGLE_PRINT_VIEW" })
     });
 });
