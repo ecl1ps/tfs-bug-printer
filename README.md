@@ -1,6 +1,8 @@
 # tfs-bug-printer
 This Google Chrome extension allows the user to show a HTML **page formatted for print** with data from any _TFS/Azure DevOps Server_ workitems query or a workitem page.
 
+**Add it to Chrome or other Chromium-based browser directly from [Chrome Store](https://chrome.google.com/webstore/detail/tfs-bug-printer/ednoomldhafkgomnoaljeabmeklglegh)!**
+
 ## Features
 * Scrum-board friendly format
 * Print from query
